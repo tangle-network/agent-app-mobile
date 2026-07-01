@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3 - 2026-07-01
+
+- Replaced the composer import button's text plus with a centered icon shape and vertically centered the single-line input row.
+
 ## 0.4.2 - 2026-07-01
 
 - Fixed the chat composer to start as a true one-line input and grow with typed content up to seven visible lines.

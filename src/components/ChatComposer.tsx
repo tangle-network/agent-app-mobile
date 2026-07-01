@@ -77,6 +77,7 @@ export const ChatComposer = memo(function ChatComposer({
   const showVoice = onVoicePress !== undefined && !canSend && !isStreaming
   const showPrimary = isStreaming || canSend
   const [inputHeight, setInputHeight] = useState(MIN_INPUT_HEIGHT)
+  const isSingleLineInput = inputHeight <= MIN_INPUT_HEIGHT + 1
 
   const send = useCallback(() => {
     if (!canSend) return
@@ -149,7 +150,7 @@ export const ChatComposer = memo(function ChatComposer({
           ))}
         </View>
       ) : null}
-      <View style={styles.inputRow}>
+      <View style={[styles.inputRow, isSingleLineInput ? styles.inputRowSingleLine : null]}>
         {onImportFile ? (
           <Pressable
             accessibilityRole="button"
@@ -162,7 +163,10 @@ export const ChatComposer = memo(function ChatComposer({
               pressed ? styles.buttonPressed : null,
             ]}
           >
-            <Text style={styles.iconText}>+</Text>
+            <View style={styles.plusIcon} aria-hidden>
+              <View style={[styles.plusBar, styles.plusBarHorizontal]} />
+              <View style={[styles.plusBar, styles.plusBarVertical]} />
+            </View>
           </Pressable>
         ) : null}
         <TextInput
@@ -180,7 +184,7 @@ export const ChatComposer = memo(function ChatComposer({
           scrollEnabled={inputHeight >= MAX_INPUT_HEIGHT}
           style={[styles.input, { height: inputHeight }]}
           returnKeyType={submitOnEnter ? 'send' : 'default'}
-          textAlignVertical={inputHeight <= MIN_INPUT_HEIGHT + 1 ? 'center' : 'top'}
+          textAlignVertical={isSingleLineInput ? 'center' : 'top'}
         />
         {showVoice ? (
           <Pressable
@@ -255,6 +259,9 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     borderCurve: 'continuous',
   },
+  inputRowSingleLine: {
+    alignItems: 'center',
+  },
   input: {
     flex: 1,
     minHeight: MIN_INPUT_HEIGHT,
@@ -296,11 +303,25 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
     backgroundColor: colors.user,
   },
-  iconText: {
-    color: colors.text,
-    fontSize: 22,
-    lineHeight: 24,
-    fontWeight: '800',
+  plusIcon: {
+    position: 'relative',
+    width: 16,
+    height: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plusBar: {
+    position: 'absolute',
+    backgroundColor: colors.text,
+    borderRadius: 2,
+  },
+  plusBarHorizontal: {
+    width: 14,
+    height: 3,
+  },
+  plusBarVertical: {
+    width: 3,
+    height: 14,
   },
   voiceText: {
     color: colors.text,
