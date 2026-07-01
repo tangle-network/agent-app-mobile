@@ -1,6 +1,6 @@
 {
   "name": "@tangle-network/agent-app-mobile",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "React Native / Expo adapter for Tangle agent apps.",
   "type": "module",
   "license": "MIT",
@@ -39,8 +39,11 @@
     "test": "vitest run",
     "example:typecheck": "pnpm --filter agent-app-mobile-example typecheck",
     "example:web:export": "pnpm --filter agent-app-mobile-example exec expo export --platform web --output-dir web-dist",
+    "example:ios:export": "pnpm --filter agent-app-mobile-example exec expo export --platform ios --output-dir /tmp/agent-app-mobile-example-ios",
+    "example:android:export": "pnpm --filter agent-app-mobile-example exec expo export --platform android --output-dir /tmp/agent-app-mobile-example-android",
+    "example:native:export": "pnpm example:ios:export && pnpm example:android:export",
     "prepack": "pnpm build",
-    "prepublishOnly": "pnpm typecheck && pnpm test && pnpm build && pnpm example:typecheck && pnpm example:web:export"
+    "prepublishOnly": "pnpm typecheck && pnpm test && pnpm build && pnpm example:typecheck && pnpm example:web:export && pnpm example:native:export"
   },
   "peerDependencies": {
     "react": ">=19",

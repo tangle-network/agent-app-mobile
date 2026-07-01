@@ -1,13 +1,21 @@
-import { useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import {
   AgentChatView,
+  createAgentAppChatClient,
+  streamAgentAppTurn,
   type ComposerAttachment,
   type MobileAgentSetting,
   type MobileCatalogModel,
   type MobilePromptSuggestion,
   useMobileChatState,
 } from '@tangle-network/agent-app-mobile'
+
+type PublicEnv = {
+  process?: {
+    env?: Record<string, string | undefined>
+  }
+}
 
 const models: MobileCatalogModel[] = [
   {
@@ -38,12 +46,53 @@ const starters: MobilePromptSuggestion[] = [
   },
 ]
 
+function publicEnv(name: string): string | undefined {
+  const value = (globalThis as typeof globalThis & PublicEnv).process?.env?.[name]
+  return value && value.trim().length > 0 ? value.trim() : undefined
+}
+
+function errorText(error: unknown): string {
+  return error instanceof Error ? error.message : 'The agent turn failed.'
+}
+
+function abortError(): Error {
+  const error = new Error('Aborted')
+  error.name = 'AbortError'
+  return error
+}
+
+function wait(ms: number, signal: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal.aborted) {
+      reject(abortError())
+      return
+    }
+    const timer = setTimeout(resolve, ms)
+    signal.addEventListener('abort', () => {
+      clearTimeout(timer)
+      reject(abortError())
+    }, { once: true })
+  })
+}
+
 export default function App() {
   const chat = useMobileChatState()
   const [modelId, setModelId] = useState(models[0]?.id)
   const [mode, setMode] = useState('router')
   const [effort, setEffort] = useState('medium')
   const [attachments, setAttachments] = useState<ComposerAttachment[]>([])
+  const [streaming, setStreaming] = useState(false)
+  const abortRef = useRef<AbortController | null>(null)
+
+  const agentAppBaseUrl = publicEnv('EXPO_PUBLIC_AGENT_APP_BASE_URL')
+  const streamPath = publicEnv('EXPO_PUBLIC_AGENT_APP_STREAM_PATH')
+  const client = useMemo(() => {
+    if (!agentAppBaseUrl) return null
+    return createAgentAppChatClient({
+      baseUrl: agentAppBaseUrl,
+      streamPath,
+    })
+  }, [agentAppBaseUrl, streamPath])
 
   const settings: MobileAgentSetting[] = [
     {
@@ -71,11 +120,60 @@ export default function App() {
     },
   ]
 
-  function send(message: string) {
+  async function runLocalDemo(assistantId: string, message: string, signal: AbortSignal) {
+    await wait(80, signal)
+    chat.dispatch({
+      type: 'text-delta',
+      id: assistantId,
+      delta: 'Local demo mode. Configure a backend URL to stream from a real agent-app route.',
+    })
+    await wait(80, signal)
+    chat.dispatch({ type: 'text-delta', id: assistantId, delta: `\n\nYou asked: ${message}` })
+    chat.dispatch({ type: 'metadata', id: assistantId, data: { modelUsed: models.find((model) => model.id === modelId)?.name } })
+  }
+
+  async function send(message: string) {
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
     const assistantId = chat.startTurn(message)
+    const turnAttachments = attachments
     setAttachments([])
-    chat.dispatch({ type: 'text-delta', id: assistantId, delta: 'Echo from the Expo smoke app: ' })
-    chat.dispatch({ type: 'text-delta', id: assistantId, delta: message })
+    setStreaming(true)
+
+    try {
+      if (client) {
+        await streamAgentAppTurn({
+          start: () => client.start({
+            message,
+            model: modelId,
+            mode,
+            reasoningEffort: effort,
+            attachments: turnAttachments,
+          }, { signal: controller.signal }),
+          resume: (turnId, fromSeq) => client.resume(turnId, fromSeq, { signal: controller.signal }),
+          callbacks: chat.callbacksFor(assistantId),
+          onResetForResume: () => chat.resetAssistant(assistantId),
+        })
+      } else {
+        await runLocalDemo(assistantId, message, controller.signal)
+      }
+    } catch (error) {
+      chat.dispatch({
+        type: 'error',
+        id: assistantId,
+        message: controller.signal.aborted ? 'Stopped.' : errorText(error),
+      })
+    } finally {
+      if (abortRef.current === controller) {
+        abortRef.current = null
+        setStreaming(false)
+      }
+    }
+  }
+
+  function cancel() {
+    abortRef.current?.abort()
   }
 
   function importFile() {
@@ -104,6 +202,8 @@ export default function App() {
           value={chat.input}
           onValueChange={chat.setInput}
           onSend={send}
+          isStreaming={streaming}
+          onCancel={cancel}
           placeholder="Ask Pi"
           models={models}
           selectedModelId={modelId}

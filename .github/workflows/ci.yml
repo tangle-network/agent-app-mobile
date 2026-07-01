@@ -21,3 +21,4 @@ jobs:
       - run: pnpm build
       - run: pnpm example:typecheck
       - run: pnpm example:web:export
+      - run: pnpm example:native:export

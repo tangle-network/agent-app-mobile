@@ -1,5 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
-import { consumeChatText, dispatchChatStreamLine, streamAgentAppTurn, type AgentAppChatResponse } from '../src/stream'
+import {
+  consumeChatText,
+  createAgentAppChatClient,
+  dispatchChatStreamLine,
+  streamAgentAppTurn,
+  type AgentAppChatResponse,
+} from '../src/stream'
 
 function response(text: string, ok = true): AgentAppChatResponse {
   return {
@@ -78,5 +84,26 @@ describe('mobile chat stream parser', () => {
     })
 
     expect(onText).toHaveBeenCalledWith('replayed')
+  })
+
+  it('passes request abort signals through start and resume fetches', async () => {
+    const fetchImpl = vi.fn(async () => response('{}'))
+    const client = createAgentAppChatClient({
+      baseUrl: 'https://agent.example',
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+    })
+    const controller = new AbortController()
+
+    await client.start({ message: 'hi' }, { signal: controller.signal })
+    await client.resume('turn_1', 3, { signal: controller.signal })
+
+    expect(fetchImpl).toHaveBeenNthCalledWith(1, 'https://agent.example/api/chat/stream', expect.objectContaining({
+      method: 'POST',
+      signal: controller.signal,
+    }))
+    expect(fetchImpl).toHaveBeenNthCalledWith(2, 'https://agent.example/api/chat/stream/turn_1?fromSeq=3', expect.objectContaining({
+      method: 'GET',
+      signal: controller.signal,
+    }))
   })
 })

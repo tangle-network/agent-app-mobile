@@ -50,6 +50,10 @@ export interface AgentAppChatClientOptions {
   fetchImpl?: typeof fetch
 }
 
+export interface AgentAppChatRequestOptions {
+  signal?: AbortSignal
+}
+
 export interface StartChatInput {
   message: string
   [key: string]: unknown
@@ -252,20 +256,22 @@ export function createAgentAppChatClient(opts: AgentAppChatClientOptions) {
   }
 
   return {
-    async start(input: StartChatInput): Promise<AgentAppChatResponse> {
+    async start(input: StartChatInput, request?: AgentAppChatRequestOptions): Promise<AgentAppChatResponse> {
       return fetchImpl(url(streamPath), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           ...(await headers()),
         },
+        signal: request?.signal,
         body: JSON.stringify(input),
       })
     },
-    async resume(turnId: string, fromSeq: number): Promise<AgentAppChatResponse> {
+    async resume(turnId: string, fromSeq: number, request?: AgentAppChatRequestOptions): Promise<AgentAppChatResponse> {
       return fetchImpl(url(resumePath(turnId, fromSeq)), {
         method: 'GET',
         headers: await headers(),
+        signal: request?.signal,
       })
     },
   }

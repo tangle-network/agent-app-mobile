@@ -23,7 +23,7 @@ pnpm add @tangle-network/agent-app-mobile react react-native
 ## Router-backed Mobile Chat
 
 ```tsx
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   AgentChatView,
   createAgentAppChatClient,
@@ -38,15 +38,31 @@ const client = createAgentAppChatClient({
 function ChatScreen() {
   const chat = useMobileChatState()
   const [reasoningEffort, setReasoningEffort] = useState('medium')
+  const [streaming, setStreaming] = useState(false)
+  const abortRef = useRef<AbortController | null>(null)
 
   async function send(message: string) {
+    const controller = new AbortController()
+    abortRef.current = controller
     const assistantId = chat.startTurn(message)
-    await streamAgentAppTurn({
-      start: () => client.start({ message }),
-      resume: client.resume,
-      callbacks: chat.callbacksFor(assistantId),
-      onResetForResume: () => chat.resetAssistant(assistantId),
-    })
+    setStreaming(true)
+    try {
+      await streamAgentAppTurn({
+        start: () => client.start({ message }, { signal: controller.signal }),
+        resume: (turnId, fromSeq) => client.resume(turnId, fromSeq, { signal: controller.signal }),
+        callbacks: chat.callbacksFor(assistantId),
+        onResetForResume: () => chat.resetAssistant(assistantId),
+      })
+    } finally {
+      if (abortRef.current === controller) {
+        abortRef.current = null
+        setStreaming(false)
+      }
+    }
+  }
+
+  function cancel() {
+    abortRef.current?.abort()
   }
 
   return (
@@ -56,6 +72,8 @@ function ChatScreen() {
       value={chat.input}
       onValueChange={chat.setInput}
       onSend={send}
+      isStreaming={streaming}
+      onCancel={cancel}
       placeholder="Ask Agent"
       onImportFile={() => openNativeDocumentPicker()}
       suggestions={[
@@ -94,6 +112,22 @@ function ChatScreen() {
 ```
 
 `onImportFile` and `onVoicePress` are callbacks on purpose. Real apps wire them to their chosen native modules, such as Expo DocumentPicker or a speech-recognition package, without forcing those native dependencies into every install. If `onVoicePress` is omitted, the composer does not show a voice control.
+
+## Expo Example
+
+The example runs in local demo mode unless you point it at a real agent-app route:
+
+```bash
+EXPO_PUBLIC_AGENT_APP_BASE_URL=http://localhost:3000 pnpm --filter agent-app-mobile-example start
+```
+
+Use a LAN or Tailscale URL instead of `localhost` when testing on a physical phone. Do not put secrets in `EXPO_PUBLIC_*` variables; they are bundled into the app.
+
+The release check exports web, iOS, and Android bundles:
+
+```bash
+pnpm prepublishOnly
+```
 
 ## Sandbox-backed Mobile Chat
 
