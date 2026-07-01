@@ -11,9 +11,10 @@ import {
   useMobileChatState,
 } from '@tangle-network/agent-app-mobile'
 
-type PublicEnv = {
-  process?: {
-    env?: Record<string, string | undefined>
+declare const process: {
+  env?: {
+    EXPO_PUBLIC_AGENT_APP_BASE_URL?: string
+    EXPO_PUBLIC_AGENT_APP_STREAM_PATH?: string
   }
 }
 
@@ -46,8 +47,7 @@ const starters: MobilePromptSuggestion[] = [
   },
 ]
 
-function publicEnv(name: string): string | undefined {
-  const value = (globalThis as typeof globalThis & PublicEnv).process?.env?.[name]
+function cleanEnv(value: string | undefined): string | undefined {
   return value && value.trim().length > 0 ? value.trim() : undefined
 }
 
@@ -84,8 +84,8 @@ export default function App() {
   const [streaming, setStreaming] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
 
-  const agentAppBaseUrl = publicEnv('EXPO_PUBLIC_AGENT_APP_BASE_URL')
-  const streamPath = publicEnv('EXPO_PUBLIC_AGENT_APP_STREAM_PATH')
+  const agentAppBaseUrl = cleanEnv(process.env?.EXPO_PUBLIC_AGENT_APP_BASE_URL)
+  const streamPath = cleanEnv(process.env?.EXPO_PUBLIC_AGENT_APP_STREAM_PATH)
   const client = useMemo(() => {
     if (!agentAppBaseUrl) return null
     return createAgentAppChatClient({

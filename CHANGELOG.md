@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1 - 2026-07-01
+
+- Fixed the Expo example backend URL wiring to use direct `EXPO_PUBLIC_*` env access so Expo can inline the real agent-app route into web/native bundles.
+
 ## 0.4.0 - 2026-07-01
 
 - Added per-request abort signal support to `createAgentAppChatClient().start()` and `.resume()` so stop/cancel controls can cancel the actual fetch.
