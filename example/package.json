@@ -9,7 +9,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tangle-network/agent-app": "^0.43.3",
     "@tangle-network/agent-app-mobile": "workspace:*",
     "expo": "^57.0.1",
     "react": "^19.2.7",

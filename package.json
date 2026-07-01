@@ -1,6 +1,6 @@
 {
   "name": "@tangle-network/agent-app-mobile",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React Native / Expo adapter for Tangle agent apps.",
   "type": "module",
   "license": "MIT",
@@ -42,12 +42,10 @@
     "prepublishOnly": "pnpm typecheck && pnpm test && pnpm build && pnpm example:typecheck && pnpm example:web:export"
   },
   "peerDependencies": {
-    "@tangle-network/agent-app": ">=0.43.3",
     "react": ">=19",
     "react-native": ">=0.86"
   },
   "devDependencies": {
-    "@tangle-network/agent-app": "^0.43.3",
     "@types/react": "^19.2.17",
     "expo": "^57.0.1",
     "react": "^19.2.7",

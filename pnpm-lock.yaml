@@ -8,9 +8,6 @@ importers:
 
   .:
     devDependencies:
-      '@tangle-network/agent-app':
-        specifier: ^0.43.3
-        version: 0.43.3(@tangle-network/agent-eval@0.100.2(typescript@6.0.3))(@tangle-network/agent-integrations@0.47.0)(@tangle-network/agent-interface@0.16.0)(react@19.2.7)
       '@types/react':
         specifier: ^19.2.17
         version: 19.2.17
@@ -35,9 +32,6 @@ importers:
 
   example:
     dependencies:
-      '@tangle-network/agent-app':
-        specifier: ^0.43.3
-        version: 0.43.3(@tangle-network/agent-eval@0.100.2(typescript@6.0.3))(@tangle-network/agent-integrations@0.47.0)(@tangle-network/agent-interface@0.16.0)(react@19.2.7)
       '@tangle-network/agent-app-mobile':
         specifier: workspace:*
         version: link:..
@@ -65,23 +59,6 @@ importers:
         version: 6.0.3
 
 packages:
-
-  '@adraffy/ens-normalize@1.11.1':
-    resolution: {integrity: sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ==}
-
-  '@asteasolutions/zod-to-openapi@8.5.0':
-    resolution: {integrity: sha512-SABbKiObg5dLRiTFnqiW1WWwGcg1BJfmHtT2asIBnBHg6Smy/Ms2KHc650+JI4Hw7lSkdiNebEGXpwoxfben8Q==}
-    peerDependencies:
-      zod: ^4.0.0
-
-  '@ax-llm/ax@19.0.45':
-    resolution: {integrity: sha512-zC/OqUutTV0omOuAxBgeCihmxP3e1eUcbA78FCaMF3pPXZ3/FgQDZf0R04LH/lVIxm5BH4/qDdNNYcIVGwii8Q==}
-    hasBin: true
-    peerDependencies:
-      zod: ^3.24.0 || ^4.0.0
-    peerDependenciesMeta:
-      zod:
-        optional: true
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -753,12 +730,6 @@ packages:
     resolution: {integrity: sha512-4aQzz9vgxcNXFfo/iyNgDDYfsU5XGKKxWxZopw0cVotHiW+U8IJbIxMaxsINs6bHhtkG3StKNPcOrn3eBuxKPw==}
     hasBin: true
 
-  '@hono/node-server@2.0.6':
-    resolution: {integrity: sha512-7DeRlKG57JDBNZ5Qj2jwVdgwQy4b0tLubRLl3zCf91/rCf9i7p1V5FtW/yWibm1uUHE493ts9ZXH/7g/LQWl+g==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      hono: ^4
-
   '@isaacs/ttlcache@1.4.1':
     resolution: {integrity: sha512-RQgQ4uQ+pLbqXfOmieB91ejmLwvSgv9nLx6sT6sD83s7umBypgg+OIBOBbEUiJXrfpnp9j0mRhYYdzp9uqq3lA==}
     engines: {node: '>=12'}
@@ -795,26 +766,6 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
-
-  '@noble/ciphers@1.3.0':
-    resolution: {integrity: sha512-2I0gnIVPtfnMw9ee9h1dJG7tp81+8Ob3OJb3Mv37rx5L40/b0i7djjCVvGOVqc9AEIQyvyu1i6ypKdFw8R8gQw==}
-    engines: {node: ^14.21.3 || >=16}
-
-  '@noble/curves@1.9.1':
-    resolution: {integrity: sha512-k11yZxZg+t+gWvBbIswW0yoJlu8cHOC7dhunwOzoWH/mXGBiYyR4YY6hAEK/3EUs4UpB8la1RfdRpeGsFHkWsA==}
-    engines: {node: ^14.21.3 || >=16}
-
-  '@noble/curves@2.2.0':
-    resolution: {integrity: sha512-T/BoHgFXirb0ENSPBquzX0rcjXeM6Lo892a2jlYJkqk83LqZx0l1Of7DzlKJ6jkpvMrkHSnAcgb5JegL8SeIkQ==}
-    engines: {node: '>= 20.19.0'}
-
-  '@noble/hashes@1.8.0':
-    resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
-    engines: {node: ^14.21.3 || >=16}
-
-  '@noble/hashes@2.2.0':
-    resolution: {integrity: sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg==}
-    engines: {node: '>= 20.19.0'}
 
   '@opentelemetry/api@1.9.1':
     resolution: {integrity: sha512-gLyJlPHPZYdAk1JENA9LeHejZe1Ti77/pTeFm/nMXmQH/HFZlcS/O2XJB+L8fkbrNSqhdtlvjBVjxwUYanNH5Q==}
@@ -1122,131 +1073,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@scure/base@1.2.6':
-    resolution: {integrity: sha512-g/nm5FgUa//MCj1gV09zTJTaM6KBAHqLN907YVQqf7zC49+DcO4B1so4ZX07Ef10Twr6nuqYEH9GEggFXA4Fmg==}
-
-  '@scure/base@2.2.0':
-    resolution: {integrity: sha512-b8XEupJibegiXV+tDUseI8oLQc8ei3d/4Jkb2RpbHh3MfE054ov3uIz2dhFkB3FI8iwYkEh0gGCApkrYggkPNg==}
-
-  '@scure/bip32@1.7.0':
-    resolution: {integrity: sha512-E4FFX/N3f4B80AKWp5dP6ow+flD1LQZo/w8UnLGYZO674jS6YnYeepycOOksv+vLPSpgN35wgKgy+ybfTb2SMw==}
-
-  '@scure/bip32@2.2.0':
-    resolution: {integrity: sha512-zFr7t2F+a9+5tB7QbarF2HQNYrgjCNaoLAupZdKkrFMYMozJf5zqH2WJCQibMzm1qQ0QogrxVGO3qXfQDYMaQg==}
-
-  '@scure/bip39@1.6.0':
-    resolution: {integrity: sha512-+lF0BbLiJNwVlev4eKelw1WWLaiKXw7sSl8T6FvBlWkdX+94aGJ4o8XjUdlyhTCjd8c+B3KT3JfS8P0bLRNU6A==}
-
-  '@scure/bip39@2.2.0':
-    resolution: {integrity: sha512-T/Bj/YvYMNkIPq6EENO6/rcs2e7qTNuyoUXf0KBFDmp0ZDu0H2X4Lq6yC3i0c8PcWkov5EbW+yQZZbdMmk154A==}
-
   '@sinclair/typebox@0.27.10':
     resolution: {integrity: sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA==}
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
-
-  '@tangle-network/agent-app@0.43.3':
-    resolution: {integrity: sha512-7i2oN7ZepohUB0v1TBAbi2gw4CcTO8CLJtiPdwA/83estoS3AQDAyQ7yV9IfCUc+Jhy7wcctpphEJ+dYtuSsjg==}
-    peerDependencies:
-      '@huggingface/transformers': '>=3'
-      '@radix-ui/react-dialog': '>=1.1'
-      '@tangle-network/agent-eval': '>=0.100.0'
-      '@tangle-network/agent-integrations': '>=0.44.0'
-      '@tangle-network/agent-interface': '>=0.15.0'
-      '@tangle-network/agent-knowledge': '>=1.7.0'
-      '@tangle-network/agent-runtime': '>=0.79.3'
-      '@tangle-network/brand': '>=0.6.0'
-      '@tangle-network/sandbox': '>=0.9.4'
-      '@tangle-network/sandbox-ui': '>=0.60.0'
-      '@xyflow/react': '>=12.0.0'
-      drizzle-orm: '>=0.36'
-      konva: '>=9'
-      lucide-react: '>=1'
-      react: '>=18'
-      react-konva: '>=18'
-      react-router: '>=7'
-      resend: '>=6'
-    peerDependenciesMeta:
-      '@huggingface/transformers':
-        optional: true
-      '@radix-ui/react-dialog':
-        optional: true
-      '@tangle-network/agent-knowledge':
-        optional: true
-      '@tangle-network/agent-runtime':
-        optional: true
-      '@tangle-network/brand':
-        optional: true
-      '@tangle-network/sandbox':
-        optional: true
-      '@tangle-network/sandbox-ui':
-        optional: true
-      '@xyflow/react':
-        optional: true
-      drizzle-orm:
-        optional: true
-      konva:
-        optional: true
-      lucide-react:
-        optional: true
-      react:
-        optional: true
-      react-konva:
-        optional: true
-      react-router:
-        optional: true
-      resend:
-        optional: true
-
-  '@tangle-network/agent-eval@0.100.2':
-    resolution: {integrity: sha512-MRYqagxqkZejtk8Ts9Nl2QhwLBOZfzUiB/i5FAX4K0GEXSr/SeCyQLD/ig8O1MLxHMoD5jYoukXJtNpMVkhLjg==}
-    engines: {node: '>=20'}
-    hasBin: true
-
-  '@tangle-network/agent-integrations@0.29.0':
-    resolution: {integrity: sha512-Avn4oBDTRP5v/3o1xq++uu/9+Rhl2hscIggeFPBGjtVYwhvbsSZL9pRrF3LfjqL9rjx9AocZOdsZC6MXrxKnkg==}
-    engines: {node: '>=20'}
-    hasBin: true
-
-  '@tangle-network/agent-integrations@0.47.0':
-    resolution: {integrity: sha512-leXHRlUyIxNkRqhBmK+5/DluABFkjhx5S4+6kyuRx2SRSlzV4F+bgPKPDl+fnj9Tj3vZuHJeUC9VmfY2pydZvA==}
-    engines: {node: '>=20'}
-
-  '@tangle-network/agent-interface@0.10.1':
-    resolution: {integrity: sha512-yehY/0EgKvu8lG6jIVoZCtMPLkj8VEWwasuAtuph2RaB9MKE5wuxRF647O6jw8KufNZ3aQ2UVVWpZ19dGCbs6w==}
-
-  '@tangle-network/agent-interface@0.16.0':
-    resolution: {integrity: sha512-QlHy5J+j23ij9rDsgtyB83fW34Tg7PMFFIxxlJ05iUdW6XoceuwnY08PcIaw/kC21EAa39+a9CkUMhPJwImlWQ==}
-
-  '@tangle-network/sandbox@0.3.0':
-    resolution: {integrity: sha512-KfgvKhsUaOpkJe3AD19w7s4hdQekBlXQGoNx0xS4u6vuQk5YnFzBgv+EQeHCkkgETpYOWS2AN+6u/JhSyWStMw==}
-    peerDependencies:
-      '@mastra/core': '*'
-      '@modelcontextprotocol/sdk': '*'
-      ai: '*'
-      openai: ^6.36.0
-      viem: ^2.0.0
-    peerDependenciesMeta:
-      '@mastra/core':
-        optional: true
-      '@modelcontextprotocol/sdk':
-        optional: true
-      ai:
-        optional: true
-      openai:
-        optional: true
-      viem:
-        optional: true
-
-  '@tangle-network/tcloud-attestation@0.1.1':
-    resolution: {integrity: sha512-+TAF9s5t1jOWGyGHvKhIWe2FYmG7puVaxmmg0Et67ylAjGa7GqUAvISXGjG/6dzld7A170V0kQHK0WVdh2Wh0Q==}
-    engines: {node: '>=18'}
-
-  '@tangle-network/tcloud@0.4.13':
-    resolution: {integrity: sha512-dhgZECJC2APHtEZkDxH21iUl9oqcrHjC8bBavOVj9Cgg5vXiT8MiVGNAZ+l7shJiUhaTNcZUldqt3ZkSQqh4pg==}
-    engines: {node: '>=18'}
-    hasBin: true
 
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
@@ -1320,17 +1151,6 @@ packages:
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
-
-  abitype@1.2.3:
-    resolution: {integrity: sha512-Ofer5QUnuUdTFsBRwARMoWKOH1ND5ehwYhJ3OJ/BQO+StkwQjHw0XyVh4vDttzHB7QOFhPHa/o413PJ82gU/Tg==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-      zod: ^3.22.0 || ^4.0.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      zod:
-        optional: true
 
   abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -1572,10 +1392,6 @@ packages:
     resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
     engines: {node: '>=18'}
 
-  commander@14.0.3:
-    resolution: {integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==}
-    engines: {node: '>=20'}
-
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
@@ -1624,9 +1440,6 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
-
-  dayjs@1.11.21:
-    resolution: {integrity: sha512-98IT+HOahAisibz/yjKbzuOBwYcjJ7BCLPzARyHiyEBmRz4fatF+KPJszEHXsGYjUG234aH/cOjW1wwTbKUZlA==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -1732,9 +1545,6 @@ packages:
   event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
     engines: {node: '>=6'}
-
-  eventemitter3@5.0.1:
-    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
 
   expect-type@1.4.0:
     resolution: {integrity: sha512-KfYbmpRm0VbLjEvVa9yGwCi9GI34xvi7A/HXYWQO65CSD2u3MczUJSuwXKFIxlGsgBQizV9q5J9NHj4VG0n+pA==}
@@ -1928,10 +1738,6 @@ packages:
   hermes-parser@0.36.1:
     resolution: {integrity: sha512-GApNk4zLHi2UWoWZZkx7LNCOSzLSc5lB55pZ/PhK7ycFeg7u5LcF88p/WbpIi1XUDtE0MpHE3uRR3u3KB7TjSQ==}
 
-  hono@4.12.27:
-    resolution: {integrity: sha512-1yrb/+w6HWQJrUCLkJ2IF5jNIPvvFkblV5RNOYl6bV+OA6p9GLcMpHFFGTosSvHvcAUibuUukRqhlYI4z32C7Q==}
-    engines: {node: '>=16.9.0'}
-
   hosted-git-info@7.0.2:
     resolution: {integrity: sha512-puUZAUKT5m8Zzvs72XWy3HtvVbTWljRE66cP60bxJzAqf2DgICo7lYTY2IHUmLnNpjYvw5bvmoHvPc0QO2a62w==}
     engines: {node: ^16.14.0 || >=18.0.0}
@@ -1988,11 +1794,6 @@ packages:
 
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
-
-  isows@1.0.7:
-    resolution: {integrity: sha512-I1fSfDCZL5P0v33sVqeTDSpcstAg/N+wF5HS033mogOVIp4B+oHC7oOCsA3axAbBSGTJ8QubbNmnIRN/h8U7hg==}
-    peerDependencies:
-      ws: '*'
 
   jest-get-type@29.6.3:
     resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
@@ -2370,20 +2171,9 @@ packages:
     resolution: {integrity: sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==}
     engines: {node: '>=8'}
 
-  openapi3-ts@4.6.0:
-    resolution: {integrity: sha512-a4sfn6L2sIShhtzJqmjGrARvxAW/3F2BJDdyRVvNF9VhAsZSh5hSyI3a9TNvmzBxXmq66nY5LNT5bQcBxYAZZg==}
-
   ora@3.4.0:
     resolution: {integrity: sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg==}
     engines: {node: '>=6'}
-
-  ox@0.14.29:
-    resolution: {integrity: sha512-M5j87Ec4V99MQdRct/g09eWXW60g6zhHTUs1lr4deUtrPDnezBdCJTgKd7pxqTpSZBFveV0ALi9jMMuT1qKyNg==}
-    peerDependencies:
-      typescript: '>=5.4.0'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   parse-png@2.1.0:
     resolution: {integrity: sha512-Nt/a5SfCLiTnQAjx3fHlqp8hRgTL3z7kTQZzvIMS9uCAepnCyjpdEc6M/sz69WqMBdaDBw9sF1F1UaHROYzGkQ==}
@@ -2882,14 +2672,6 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  viem@2.54.1:
-    resolution: {integrity: sha512-QRC3GBSnQit4pbb0sSBHRD9WYTPAffvhOqdqp8LgkRRktXZq8dePezZM/ZIkFwluLT7fMP90908goHQbtcga2A==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   vite@8.1.2:
     resolution: {integrity: sha512-6YYPbRXTxx6bRXmOn7XdnQAy5DQNHhDgtjhDHI13oe4pY93kkcdGJWxpGwOm++/Wh0QpQhDrpIoVMrmrsI5AGQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -3021,18 +2803,6 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.20.1:
-    resolution: {integrity: sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.21.0:
     resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
     engines: {node: '>=10.0.0'}
@@ -3084,24 +2854,7 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
-
 snapshots:
-
-  '@adraffy/ens-normalize@1.11.1': {}
-
-  '@asteasolutions/zod-to-openapi@8.5.0(zod@4.4.3)':
-    dependencies:
-      openapi3-ts: 4.6.0
-      zod: 4.4.3
-
-  '@ax-llm/ax@19.0.45(zod@4.4.3)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      dayjs: 1.11.21
-    optionalDependencies:
-      zod: 4.4.3
 
   '@babel/code-frame@7.29.7':
     dependencies:
@@ -3998,10 +3751,6 @@ snapshots:
       chalk: 4.1.2
       js-yaml: 4.3.0
 
-  '@hono/node-server@2.0.6(hono@4.12.27)':
-    dependencies:
-      hono: 4.12.27
-
   '@isaacs/ttlcache@1.4.1': {}
 
   '@jest/schemas@29.6.3':
@@ -4048,21 +3797,8 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
-  '@noble/ciphers@1.3.0': {}
-
-  '@noble/curves@1.9.1':
-    dependencies:
-      '@noble/hashes': 1.8.0
-
-  '@noble/curves@2.2.0':
-    dependencies:
-      '@noble/hashes': 2.2.0
-
-  '@noble/hashes@1.8.0': {}
-
-  '@noble/hashes@2.2.0': {}
-
-  '@opentelemetry/api@1.9.1': {}
+  '@opentelemetry/api@1.9.1':
+    optional: true
 
   '@oxc-project/types@0.137.0': {}
 
@@ -4272,100 +4008,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.62.2':
     optional: true
 
-  '@scure/base@1.2.6': {}
-
-  '@scure/base@2.2.0': {}
-
-  '@scure/bip32@1.7.0':
-    dependencies:
-      '@noble/curves': 1.9.1
-      '@noble/hashes': 1.8.0
-      '@scure/base': 1.2.6
-
-  '@scure/bip32@2.2.0':
-    dependencies:
-      '@noble/curves': 2.2.0
-      '@noble/hashes': 2.2.0
-      '@scure/base': 2.2.0
-
-  '@scure/bip39@1.6.0':
-    dependencies:
-      '@noble/hashes': 1.8.0
-      '@scure/base': 1.2.6
-
-  '@scure/bip39@2.2.0':
-    dependencies:
-      '@noble/hashes': 2.2.0
-      '@scure/base': 2.2.0
-
   '@sinclair/typebox@0.27.10': {}
 
   '@standard-schema/spec@1.1.0': {}
-
-  '@tangle-network/agent-app@0.43.3(@tangle-network/agent-eval@0.100.2(typescript@6.0.3))(@tangle-network/agent-integrations@0.47.0)(@tangle-network/agent-interface@0.16.0)(react@19.2.7)':
-    dependencies:
-      '@tangle-network/agent-eval': 0.100.2(typescript@6.0.3)
-      '@tangle-network/agent-integrations': 0.47.0
-      '@tangle-network/agent-interface': 0.16.0
-      zod: 4.4.3
-    optionalDependencies:
-      react: 19.2.7
-
-  '@tangle-network/agent-eval@0.100.2(typescript@6.0.3)':
-    dependencies:
-      '@asteasolutions/zod-to-openapi': 8.5.0(zod@4.4.3)
-      '@ax-llm/ax': 19.0.45(zod@4.4.3)
-      '@hono/node-server': 2.0.6(hono@4.12.27)
-      '@tangle-network/agent-interface': 0.10.1
-      '@tangle-network/tcloud': 0.4.13(typescript@6.0.3)(zod@4.4.3)
-      hono: 4.12.27
-      zod: 4.4.3
-    transitivePeerDependencies:
-      - '@mastra/core'
-      - '@modelcontextprotocol/sdk'
-      - ai
-      - bufferutil
-      - openai
-      - typescript
-      - utf-8-validate
-
-  '@tangle-network/agent-integrations@0.29.0': {}
-
-  '@tangle-network/agent-integrations@0.47.0': {}
-
-  '@tangle-network/agent-interface@0.10.1':
-    dependencies:
-      zod: 4.4.3
-
-  '@tangle-network/agent-interface@0.16.0':
-    dependencies:
-      zod: 4.4.3
-
-  '@tangle-network/sandbox@0.3.0(viem@2.54.1(typescript@6.0.3)(zod@4.4.3))':
-    dependencies:
-      '@tangle-network/agent-integrations': 0.29.0
-    optionalDependencies:
-      viem: 2.54.1(typescript@6.0.3)(zod@4.4.3)
-
-  '@tangle-network/tcloud-attestation@0.1.1': {}
-
-  '@tangle-network/tcloud@0.4.13(typescript@6.0.3)(zod@4.4.3)':
-    dependencies:
-      '@scure/bip32': 2.2.0
-      '@scure/bip39': 2.2.0
-      '@tangle-network/sandbox': 0.3.0(viem@2.54.1(typescript@6.0.3)(zod@4.4.3))
-      '@tangle-network/tcloud-attestation': 0.1.1
-      commander: 14.0.3
-      viem: 2.54.1(typescript@6.0.3)(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@mastra/core'
-      - '@modelcontextprotocol/sdk'
-      - ai
-      - bufferutil
-      - openai
-      - typescript
-      - utf-8-validate
-      - zod
 
   '@tybys/wasm-util@0.10.3':
     dependencies:
@@ -4451,11 +4096,6 @@ snapshots:
   '@xmldom/xmldom@0.8.13': {}
 
   '@xmldom/xmldom@0.9.10': {}
-
-  abitype@1.2.3(typescript@6.0.3)(zod@4.4.3):
-    optionalDependencies:
-      typescript: 6.0.3
-      zod: 4.4.3
 
   abort-controller@3.0.0:
     dependencies:
@@ -4724,8 +4364,6 @@ snapshots:
 
   commander@12.1.0: {}
 
-  commander@14.0.3: {}
-
   commander@2.20.3: {}
 
   commander@4.1.1: {}
@@ -4784,8 +4422,6 @@ snapshots:
       hyphenate-style-name: 1.1.0
 
   csstype@3.2.3: {}
-
-  dayjs@1.11.21: {}
 
   debug@2.6.9:
     dependencies:
@@ -4875,8 +4511,6 @@ snapshots:
   etag@1.8.1: {}
 
   event-target-shim@5.0.1: {}
-
-  eventemitter3@5.0.1: {}
 
   expect-type@1.4.0: {}
 
@@ -5084,8 +4718,6 @@ snapshots:
     dependencies:
       hermes-estree: 0.36.1
 
-  hono@4.12.27: {}
-
   hosted-git-info@7.0.2:
     dependencies:
       lru-cache: 10.4.3
@@ -5138,10 +4770,6 @@ snapshots:
       is-docker: 2.2.1
 
   isexe@2.0.0: {}
-
-  isows@1.0.7(ws@8.20.1):
-    dependencies:
-      ws: 8.20.1
 
   jest-get-type@29.6.3: {}
 
@@ -5566,10 +5194,6 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openapi3-ts@4.6.0:
-    dependencies:
-      yaml: 2.9.0
-
   ora@3.4.0:
     dependencies:
       chalk: 2.4.2
@@ -5578,21 +5202,6 @@ snapshots:
       log-symbols: 2.2.0
       strip-ansi: 5.2.0
       wcwidth: 1.0.1
-
-  ox@0.14.29(typescript@6.0.3)(zod@4.4.3):
-    dependencies:
-      '@adraffy/ens-normalize': 1.11.1
-      '@noble/ciphers': 1.3.0
-      '@noble/curves': 1.9.1
-      '@noble/hashes': 1.8.0
-      '@scure/bip32': 1.7.0
-      '@scure/bip39': 1.6.0
-      abitype: 1.2.3(typescript@6.0.3)(zod@4.4.3)
-      eventemitter3: 5.0.1
-    optionalDependencies:
-      typescript: 6.0.3
-    transitivePeerDependencies:
-      - zod
 
   parse-png@2.1.0:
     dependencies:
@@ -6113,23 +5722,6 @@ snapshots:
 
   vary@1.1.2: {}
 
-  viem@2.54.1(typescript@6.0.3)(zod@4.4.3):
-    dependencies:
-      '@noble/curves': 1.9.1
-      '@noble/hashes': 1.8.0
-      '@scure/bip32': 1.7.0
-      '@scure/bip39': 1.6.0
-      abitype: 1.2.3(typescript@6.0.3)(zod@4.4.3)
-      isows: 1.0.7(ws@8.20.1)
-      ox: 0.14.29(typescript@6.0.3)(zod@4.4.3)
-      ws: 8.20.1
-    optionalDependencies:
-      typescript: 6.0.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-
   vite@8.1.2(@types/node@26.0.1)(esbuild@0.27.7)(terser@5.48.0)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.32.0
@@ -6210,8 +5802,6 @@ snapshots:
 
   ws@7.5.11: {}
 
-  ws@8.20.1: {}
-
   ws@8.21.0: {}
 
   xcode@3.0.1:
@@ -6247,5 +5837,3 @@ snapshots:
       yargs-parser: 21.1.1
 
   zod@3.25.76: {}
-
-  zod@4.4.3: {}

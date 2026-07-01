@@ -2,7 +2,7 @@
 
 React Native / Expo components and transport helpers for agent apps.
 
-This package is intentionally thin. It depends on `@tangle-network/agent-app` for the engine-shaped parts and only owns native mobile UI:
+This package is intentionally thin. It speaks the `@tangle-network/agent-app` chat stream protocol, but it does not import web/server packages into the native bundle.
 
 - Router-backed chat screens
 - Mobile chat message list
@@ -16,7 +16,7 @@ It does not import web UI, sandbox terminal UI, xterm, or sandbox-ui.
 ## Install
 
 ```bash
-pnpm add @tangle-network/agent-app-mobile @tangle-network/agent-app react react-native
+pnpm add @tangle-network/agent-app-mobile react react-native
 ```
 
 ## Router-backed Mobile Chat

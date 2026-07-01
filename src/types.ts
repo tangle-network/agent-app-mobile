@@ -1,6 +1,12 @@
-import type { CatalogModel } from '@tangle-network/agent-app/runtime'
-
-export type MobileCatalogModel = CatalogModel
+export interface MobileCatalogModel {
+  id: string
+  name: string
+  provider: string
+  supportsTools: boolean
+  supportsReasoning?: boolean
+  featured?: boolean
+  [key: string]: unknown
+}
 
 export type MobileMessageRole = 'user' | 'assistant' | 'system'
 

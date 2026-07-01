@@ -12,8 +12,6 @@ export default defineConfig({
   clean: true,
   target: 'es2022',
   external: [
-    '@tangle-network/agent-app',
-    '@tangle-network/agent-app/runtime',
     'react',
     'react-native',
   ],
