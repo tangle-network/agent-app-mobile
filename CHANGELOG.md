@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2 - 2026-07-01
+
+- Fixed the chat composer to start as a true one-line input and grow with typed content up to seven visible lines.
+
 ## 0.4.1 - 2026-07-01
 
 - Fixed the Expo example backend URL wiring to use direct `EXPO_PUBLIC_*` env access so Expo can inline the real agent-app route into web/native bundles.

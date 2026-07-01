@@ -1,8 +1,33 @@
-import { memo, useCallback } from 'react'
-import { Pressable, StyleSheet, Text, TextInput, View, type NativeSyntheticEvent, type TextInputKeyPressEventData } from 'react-native'
-import { colors, radii } from './theme'
+import { memo, useCallback, useEffect, useState } from 'react'
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  type NativeSyntheticEvent,
+  type TextInputContentSizeChangeEventData,
+  type TextInputKeyPressEventData,
+} from 'react-native'
+import { colors } from './theme'
 
 export type ComposerVoiceState = 'idle' | 'listening' | 'transcribing'
+
+const INPUT_LINE_HEIGHT = 22
+const INPUT_VERTICAL_PADDING = 4
+const MIN_INPUT_HEIGHT = INPUT_LINE_HEIGHT + (INPUT_VERTICAL_PADDING * 2)
+const MAX_INPUT_LINES = 7
+const MAX_INPUT_HEIGHT = (INPUT_LINE_HEIGHT * MAX_INPUT_LINES) + (INPUT_VERTICAL_PADDING * 2)
+const ICON_SIZE = 36
+
+function clampInputHeight(height: number): number {
+  return Math.min(MAX_INPUT_HEIGHT, Math.max(MIN_INPUT_HEIGHT, Math.ceil(height)))
+}
+
+function heightFromExplicitLines(value: string): number {
+  const lineCount = Math.max(1, value.split('\n').length)
+  return clampInputHeight((Math.min(lineCount, MAX_INPUT_LINES) * INPUT_LINE_HEIGHT) + (INPUT_VERTICAL_PADDING * 2))
+}
 
 export interface ComposerAttachment {
   id: string
@@ -51,11 +76,36 @@ export const ChatComposer = memo(function ChatComposer({
   const voiceLabel = voiceState === 'listening' ? 'Listening' : voiceState === 'transcribing' ? 'Transcribing' : 'Mic'
   const showVoice = onVoicePress !== undefined && !canSend && !isStreaming
   const showPrimary = isStreaming || canSend
+  const [inputHeight, setInputHeight] = useState(MIN_INPUT_HEIGHT)
 
   const send = useCallback(() => {
     if (!canSend) return
     onSend(trimmed)
   }, [canSend, onSend, trimmed])
+
+  const resizeInput = useCallback((height: number) => {
+    const nextHeight = clampInputHeight(height)
+    setInputHeight((currentHeight) => (
+      Math.abs(currentHeight - nextHeight) > 1 ? nextHeight : currentHeight
+    ))
+  }, [])
+
+  const handleContentSizeChange = useCallback((
+    event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>,
+  ) => {
+    resizeInput(event.nativeEvent.contentSize.height)
+  }, [resizeInput])
+
+  useEffect(() => {
+    if (value.length === 0) {
+      resizeInput(MIN_INPUT_HEIGHT)
+      return
+    }
+
+    if (value.includes('\n')) {
+      resizeInput(heightFromExplicitLines(value))
+    }
+  }, [resizeInput, value])
 
   const pressPrimary = useCallback(() => {
     if (isStreaming) {
@@ -124,10 +174,13 @@ export const ChatComposer = memo(function ChatComposer({
           placeholderTextColor={colors.muted}
           editable={!disabled}
           multiline
+          numberOfLines={1}
+          onContentSizeChange={handleContentSizeChange}
           submitBehavior={submitOnEnter ? 'submit' : 'newline'}
-          style={styles.input}
+          scrollEnabled={inputHeight >= MAX_INPUT_HEIGHT}
+          style={[styles.input, { height: inputHeight }]}
           returnKeyType={submitOnEnter ? 'send' : 'default'}
-          textAlignVertical="top"
+          textAlignVertical={inputHeight <= MIN_INPUT_HEIGHT + 1 ? 'center' : 'top'}
         />
         {showVoice ? (
           <Pressable
@@ -193,48 +246,50 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     gap: 6,
-    minHeight: 52,
-    padding: 6,
+    minHeight: ICON_SIZE + 8,
+    paddingHorizontal: 5,
+    paddingVertical: 4,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.card,
-    borderRadius: 26,
+    borderRadius: 22,
     borderCurve: 'continuous',
   },
   input: {
     flex: 1,
-    minHeight: 38,
-    maxHeight: 104,
+    minHeight: MIN_INPUT_HEIGHT,
+    maxHeight: MAX_INPUT_HEIGHT,
     paddingHorizontal: 6,
-    paddingVertical: 8,
+    paddingVertical: INPUT_VERTICAL_PADDING,
     color: colors.text,
     fontSize: 16,
-    lineHeight: 22,
+    lineHeight: INPUT_LINE_HEIGHT,
+    overflow: 'hidden',
     outlineColor: 'transparent',
     outlineStyle: 'solid',
     outlineWidth: 0,
   },
   iconButton: {
-    width: 38,
-    height: 38,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.background,
-    borderRadius: 19,
+    borderRadius: ICON_SIZE / 2,
     borderCurve: 'continuous',
   },
   voiceButton: {
-    minWidth: 44,
-    height: 38,
+    minWidth: 42,
+    height: ICON_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 9,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.background,
-    borderRadius: 19,
+    borderRadius: ICON_SIZE / 2,
     borderCurve: 'continuous',
   },
   voiceButtonActive: {
@@ -249,19 +304,19 @@ const styles = StyleSheet.create({
   },
   voiceText: {
     color: colors.text,
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '800',
   },
   voiceTextActive: {
     color: colors.primary,
   },
   button: {
-    width: 38,
-    height: 38,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.primary,
-    borderRadius: 19,
+    borderRadius: ICON_SIZE / 2,
     borderCurve: 'continuous',
   },
   buttonPressed: {
