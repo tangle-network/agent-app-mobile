@@ -1,0 +1,58 @@
+{
+  "name": "@tangle-network/agent-app-mobile",
+  "version": "0.1.0",
+  "description": "React Native / Expo adapter for Tangle agent apps.",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "AGENTS.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./stream": {
+      "types": "./dist/stream.d.ts",
+      "import": "./dist/stream.js",
+      "default": "./dist/stream.js"
+    },
+    "./state": {
+      "types": "./dist/state.d.ts",
+      "import": "./dist/state.js",
+      "default": "./dist/state.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "example:typecheck": "pnpm --filter agent-app-mobile-example typecheck",
+    "example:web:export": "pnpm --filter agent-app-mobile-example exec expo export --platform web --output-dir web-dist",
+    "prepack": "pnpm build",
+    "prepublishOnly": "pnpm typecheck && pnpm test && pnpm build && pnpm example:typecheck && pnpm example:web:export"
+  },
+  "peerDependencies": {
+    "@tangle-network/agent-app": ">=0.43.3",
+    "react": ">=19",
+    "react-native": ">=0.86"
+  },
+  "devDependencies": {
+    "@tangle-network/agent-app": "^0.43.3",
+    "@types/react": "^19.2.17",
+    "expo": "^57.0.1",
+    "react": "^19.2.7",
+    "react-native": "^0.86.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  },
+  "sideEffects": false,
+  "packageManager": "pnpm@10.33.4"
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@tangle-network/agent-app-mobile": ["../src/index.ts"]
+    }
+  },
+  "include": ["src", "index.ts"]
+}
