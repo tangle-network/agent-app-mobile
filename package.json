@@ -12,6 +12,9 @@
     "README.md",
     "AGENTS.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
