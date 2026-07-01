@@ -1,5 +1,6 @@
 export * from './ActivityList'
 export * from './AgentChatView'
+export * from './AgentSettingsSheet'
 export * from './ChatComposer'
 export * from './ChatMessageList'
 export * from './ModelPicker'

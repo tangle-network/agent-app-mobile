@@ -7,7 +7,8 @@ This package is intentionally thin. It speaks the `@tangle-network/agent-app` ch
 - Router-backed chat screens
 - Mobile chat message list
 - Mobile composer
-- Model picker
+- Settings sheet with model and agent knobs
+- File import and voice dictation controls
 - Tool/activity list
 - NDJSON stream consumption for agent-app chat routes
 
@@ -22,6 +23,7 @@ pnpm add @tangle-network/agent-app-mobile react react-native
 ## Router-backed Mobile Chat
 
 ```tsx
+import { useState } from 'react'
 import {
   AgentChatView,
   createAgentAppChatClient,
@@ -35,6 +37,7 @@ const client = createAgentAppChatClient({
 
 function ChatScreen() {
   const chat = useMobileChatState()
+  const [reasoningEffort, setReasoningEffort] = useState('medium')
 
   async function send(message: string) {
     const assistantId = chat.startTurn(message)
@@ -53,10 +56,27 @@ function ChatScreen() {
       value={chat.input}
       onValueChange={chat.setInput}
       onSend={send}
+      onImportFile={() => openNativeDocumentPicker()}
+      onVoicePress={() => startNativeDictation()}
+      settings={[
+        {
+          id: 'effort',
+          label: 'Reasoning',
+          value: reasoningEffort,
+          options: [
+            { id: 'low', label: 'Low' },
+            { id: 'medium', label: 'Medium' },
+            { id: 'high', label: 'High' },
+          ],
+          onChange: setReasoningEffort,
+        },
+      ]}
     />
   )
 }
 ```
+
+`onImportFile` and `onVoicePress` are callbacks on purpose. Real apps wire them to their chosen native modules, such as Expo DocumentPicker or a speech-recognition package, without forcing those native dependencies into every install.
 
 ## Sandbox-backed Mobile Chat
 

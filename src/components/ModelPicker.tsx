@@ -1,5 +1,5 @@
 import { memo, useCallback, useMemo, useState } from 'react'
-import { FlatList, Modal, Pressable, StyleSheet, Text, View, type ListRenderItem } from 'react-native'
+import { FlatList, Modal, Platform, Pressable, StyleSheet, Text, View, type ListRenderItem } from 'react-native'
 import type { MobileCatalogModel } from '../types'
 import { colors, radii } from './theme'
 
@@ -48,6 +48,7 @@ export function ModelPicker({ value, models, loading = false, onChange, label = 
   const [open, setOpen] = useState(false)
   const selected = useMemo(() => models.find((model) => model.id === value), [models, value])
   const close = useCallback(() => setOpen(false), [])
+  const webCloseProps = Platform.OS === 'web' ? ({ onClick: close } as Record<string, unknown>) : undefined
   const openSheet = useCallback(() => setOpen(true), [])
   const pick = useCallback((id: string) => {
     onChange(id)
@@ -73,24 +74,33 @@ export function ModelPicker({ value, models, loading = false, onChange, label = 
         <Text style={styles.triggerLabel}>{label}</Text>
         <Text numberOfLines={1} style={styles.triggerValue}>{triggerText}</Text>
       </Pressable>
-      <Modal visible={open} animationType="slide" presentationStyle="pageSheet" onRequestClose={close}>
-        <View style={styles.sheet}>
-          <View style={styles.sheetHeader}>
-            <Text style={styles.sheetTitle}>{label}</Text>
-            <Pressable accessibilityRole="button" accessibilityLabel="Close model picker" onPress={close} style={styles.closeButton}>
-              <Text style={styles.closeText}>Done</Text>
-            </Pressable>
+      {open ? (
+        <Modal visible animationType="slide" presentationStyle="pageSheet" onRequestClose={close}>
+          <View style={styles.sheet}>
+            <View style={styles.sheetHeader}>
+              <Text style={styles.sheetTitle}>{label}</Text>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Close model picker"
+                onPress={close}
+                onPressIn={close}
+                style={styles.closeButton}
+                {...webCloseProps}
+              >
+                <Text style={styles.closeText}>Done</Text>
+              </Pressable>
+            </View>
+            <FlatList
+              data={models}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
+              contentInsetAdjustmentBehavior="automatic"
+              contentContainerStyle={styles.modelList}
+              ListEmptyComponent={<Text style={styles.emptyText}>{loading ? 'Loading models...' : 'No models available.'}</Text>}
+            />
           </View>
-          <FlatList
-            data={models}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
-            contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={styles.modelList}
-            ListEmptyComponent={<Text style={styles.emptyText}>{loading ? 'Loading models...' : 'No models available.'}</Text>}
-          />
-        </View>
-      </Modal>
+        </Modal>
+      ) : null}
     </View>
   )
 }

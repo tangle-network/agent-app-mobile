@@ -1,8 +1,9 @@
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
-import type { MobileCatalogModel, MobileChatMessage } from '../types'
+import type { MobileAgentSetting, MobileCatalogModel, MobileChatMessage } from '../types'
+import type { ComposerAttachment, ComposerVoiceState } from './ChatComposer'
+import { AgentSettingsSheet } from './AgentSettingsSheet'
 import { ChatComposer } from './ChatComposer'
 import { ChatMessageList } from './ChatMessageList'
-import { ModelPicker } from './ModelPicker'
 import { colors } from './theme'
 
 export interface AgentChatViewProps {
@@ -18,6 +19,13 @@ export interface AgentChatViewProps {
   selectedModelId?: string
   modelsLoading?: boolean
   onModelChange?: (id: string) => void
+  settings?: MobileAgentSetting[]
+  attachments?: ComposerAttachment[]
+  onRemoveAttachment?: (id: string) => void
+  onImportFile?: () => void
+  onVoicePress?: () => void
+  voiceState?: ComposerVoiceState
+  submitOnEnter?: boolean
 }
 
 export function AgentChatView({
@@ -33,8 +41,15 @@ export function AgentChatView({
   selectedModelId,
   modelsLoading,
   onModelChange,
+  settings = [],
+  attachments,
+  onRemoveAttachment,
+  onImportFile,
+  onVoicePress,
+  voiceState,
+  submitOnEnter,
 }: AgentChatViewProps) {
-  const showModelPicker = models.length > 0 && onModelChange !== undefined
+  const showSettings = (models.length > 0 && onModelChange !== undefined) || settings.length > 0
   return (
     <KeyboardAvoidingView
       style={styles.shell}
@@ -46,12 +61,13 @@ export function AgentChatView({
           <Text style={styles.title}>{title}</Text>
           {isStreaming ? <Text style={styles.running}>running</Text> : null}
         </View>
-        {showModelPicker ? (
-          <ModelPicker
-            value={selectedModelId}
+        {showSettings ? (
+          <AgentSettingsSheet
             models={models}
-            loading={modelsLoading}
-            onChange={onModelChange}
+            selectedModelId={selectedModelId}
+            modelsLoading={modelsLoading}
+            onModelChange={onModelChange}
+            settings={settings}
           />
         ) : null}
       </View>
@@ -64,6 +80,12 @@ export function AgentChatView({
           isStreaming={isStreaming}
           onCancel={onCancel}
           disabled={disabled}
+          submitOnEnter={submitOnEnter}
+          attachments={attachments}
+          onRemoveAttachment={onRemoveAttachment}
+          onImportFile={onImportFile}
+          onVoicePress={onVoicePress}
+          voiceState={voiceState}
         />
       </View>
     </KeyboardAvoidingView>

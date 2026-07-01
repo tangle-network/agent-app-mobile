@@ -8,6 +8,21 @@ export interface MobileCatalogModel {
   [key: string]: unknown
 }
 
+export interface MobileAgentSettingOption {
+  id: string
+  label: string
+  description?: string
+}
+
+export interface MobileAgentSetting {
+  id: string
+  label: string
+  value: string
+  description?: string
+  options: MobileAgentSettingOption[]
+  onChange: (id: string) => void
+}
+
 export type MobileMessageRole = 'user' | 'assistant' | 'system'
 
 export interface MobileToolCall {

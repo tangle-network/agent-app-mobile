@@ -4,5 +4,6 @@ web-dist/
 .expo/
 .expo-shared/
 coverage/
+.agent-memory/
 *.log
 .DS_Store

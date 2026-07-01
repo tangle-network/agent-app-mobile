@@ -1,6 +1,13 @@
 import { useState } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
-import { AgentChatView, type MobileCatalogModel, useMobileChatState } from '@tangle-network/agent-app-mobile'
+import {
+  AgentChatView,
+  type ComposerAttachment,
+  type ComposerVoiceState,
+  type MobileAgentSetting,
+  type MobileCatalogModel,
+  useMobileChatState,
+} from '@tangle-network/agent-app-mobile'
 
 const models: MobileCatalogModel[] = [
   {
@@ -22,11 +29,67 @@ export default function App() {
     },
   ])
   const [modelId, setModelId] = useState(models[0]?.id)
+  const [mode, setMode] = useState('router')
+  const [effort, setEffort] = useState('medium')
+  const [attachments, setAttachments] = useState<ComposerAttachment[]>([])
+  const [voiceState, setVoiceState] = useState<ComposerVoiceState>('idle')
+
+  const settings: MobileAgentSetting[] = [
+    {
+      id: 'mode',
+      label: 'Mode',
+      value: mode,
+      description: 'Backend used for the next turn.',
+      options: [
+        { id: 'router', label: 'Router' },
+        { id: 'sandbox', label: 'Sandbox' },
+      ],
+      onChange: setMode,
+    },
+    {
+      id: 'effort',
+      label: 'Reasoning',
+      value: effort,
+      description: 'How much thinking budget the agent should spend.',
+      options: [
+        { id: 'low', label: 'Low' },
+        { id: 'medium', label: 'Medium' },
+        { id: 'high', label: 'High' },
+      ],
+      onChange: setEffort,
+    },
+  ]
 
   function send(message: string) {
     const assistantId = chat.startTurn(message)
+    setVoiceState('idle')
+    setAttachments([])
     chat.dispatch({ type: 'text-delta', id: assistantId, delta: 'Echo from the Expo smoke app: ' })
     chat.dispatch({ type: 'text-delta', id: assistantId, delta: message })
+  }
+
+  function importFile() {
+    setAttachments((current) => [
+      ...current,
+      {
+        id: `file_${current.length + 1}`,
+        name: Platform.OS === 'ios' ? 'iCloud document.pdf' : 'Android document.pdf',
+        status: 'ready',
+      },
+    ])
+  }
+
+  function removeAttachment(id: string) {
+    setAttachments((current) => current.filter((attachment) => attachment.id !== id))
+  }
+
+  function dictate() {
+    if (voiceState !== 'idle') {
+      setVoiceState('idle')
+      return
+    }
+    setVoiceState('listening')
+    chat.setInput(chat.input ? `${chat.input} voice note` : 'voice note')
   }
 
   return (
@@ -41,6 +104,12 @@ export default function App() {
           models={models}
           selectedModelId={modelId}
           onModelChange={setModelId}
+          settings={settings}
+          attachments={attachments}
+          onRemoveAttachment={removeAttachment}
+          onImportFile={importFile}
+          onVoicePress={dictate}
+          voiceState={voiceState}
         />
       </View>
     </View>

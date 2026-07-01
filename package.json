@@ -1,6 +1,6 @@
 {
   "name": "@tangle-network/agent-app-mobile",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "React Native / Expo adapter for Tangle agent apps.",
   "type": "module",
   "license": "MIT",
