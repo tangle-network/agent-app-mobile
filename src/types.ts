@@ -23,6 +23,12 @@ export interface MobileAgentSetting {
   onChange: (id: string) => void
 }
 
+export interface MobilePromptSuggestion {
+  id: string
+  title: string
+  prompt: string
+}
+
 export type MobileMessageRole = 'user' | 'assistant' | 'system'
 
 export interface MobileToolCall {

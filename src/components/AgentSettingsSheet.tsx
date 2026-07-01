@@ -144,13 +144,13 @@ export function AgentSettingsSheet({
     <Text style={styles.sectionTitle}>{section.title}</Text>
   ), [])
 
-  const triggerText = selected?.name ?? (modelsLoading ? 'Loading' : 'Configure')
+  const triggerText = selected?.name ?? (modelsLoading ? 'Loading' : 'Settings')
 
   return (
     <View>
       <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={openSheet} style={styles.trigger}>
-        <Text style={styles.triggerLabel}>{label}</Text>
         <Text numberOfLines={1} style={styles.triggerValue}>{triggerText}</Text>
+        <Text style={styles.triggerIcon}>⌄</Text>
       </Pressable>
       {open ? (
         <Modal visible animationType="slide" presentationStyle="pageSheet" onRequestClose={close}>
@@ -186,25 +186,30 @@ export function AgentSettingsSheet({
 
 const styles = StyleSheet.create({
   trigger: {
-    gap: 3,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    maxWidth: 178,
+    minHeight: 36,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 11,
+    paddingVertical: 7,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.card,
-    borderRadius: radii.lg,
+    borderRadius: 999,
     borderCurve: 'continuous',
   },
-  triggerLabel: {
-    color: colors.muted,
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-  },
   triggerValue: {
+    flexShrink: 1,
     color: colors.text,
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '700',
+  },
+  triggerIcon: {
+    color: colors.muted,
+    fontSize: 16,
+    fontWeight: '800',
+    lineHeight: 16,
   },
   sheet: {
     flex: 1,

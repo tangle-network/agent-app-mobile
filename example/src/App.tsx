@@ -3,9 +3,9 @@ import { Platform, StyleSheet, View } from 'react-native'
 import {
   AgentChatView,
   type ComposerAttachment,
-  type ComposerVoiceState,
   type MobileAgentSetting,
   type MobileCatalogModel,
+  type MobilePromptSuggestion,
   useMobileChatState,
 } from '@tangle-network/agent-app-mobile'
 
@@ -20,19 +20,30 @@ const models: MobileCatalogModel[] = [
   },
 ]
 
+const starters: MobilePromptSuggestion[] = [
+  {
+    id: 'router',
+    title: 'Router chat',
+    prompt: 'Show me the cleanest router-backed mobile chat flow.',
+  },
+  {
+    id: 'sandbox',
+    title: 'Sandbox app',
+    prompt: 'Sketch a mobile sandbox-backed agent screen without a terminal.',
+  },
+  {
+    id: 'files',
+    title: 'Use a file',
+    prompt: 'Help me import a file and use it in the next agent turn.',
+  },
+]
+
 export default function App() {
-  const chat = useMobileChatState([
-    {
-      id: 'welcome',
-      role: 'assistant',
-      content: 'This is the native mobile shell. Wire onSend to your agent-app chat route.',
-    },
-  ])
+  const chat = useMobileChatState()
   const [modelId, setModelId] = useState(models[0]?.id)
   const [mode, setMode] = useState('router')
   const [effort, setEffort] = useState('medium')
   const [attachments, setAttachments] = useState<ComposerAttachment[]>([])
-  const [voiceState, setVoiceState] = useState<ComposerVoiceState>('idle')
 
   const settings: MobileAgentSetting[] = [
     {
@@ -62,7 +73,6 @@ export default function App() {
 
   function send(message: string) {
     const assistantId = chat.startTurn(message)
-    setVoiceState('idle')
     setAttachments([])
     chat.dispatch({ type: 'text-delta', id: assistantId, delta: 'Echo from the Expo smoke app: ' })
     chat.dispatch({ type: 'text-delta', id: assistantId, delta: message })
@@ -83,24 +93,18 @@ export default function App() {
     setAttachments((current) => current.filter((attachment) => attachment.id !== id))
   }
 
-  function dictate() {
-    if (voiceState !== 'idle') {
-      setVoiceState('idle')
-      return
-    }
-    setVoiceState('listening')
-    chat.setInput(chat.input ? `${chat.input} voice note` : 'voice note')
-  }
+  const showStarters = !chat.messages.some((message) => message.role === 'user')
 
   return (
     <View style={styles.root}>
       <View style={[styles.screen, Platform.OS === 'web' ? styles.webScreen : null]}>
         <AgentChatView
-          title="Agent App Mobile"
+          title="Pi"
           messages={chat.messages}
           value={chat.input}
           onValueChange={chat.setInput}
           onSend={send}
+          placeholder="Ask Pi"
           models={models}
           selectedModelId={modelId}
           onModelChange={setModelId}
@@ -108,8 +112,7 @@ export default function App() {
           attachments={attachments}
           onRemoveAttachment={removeAttachment}
           onImportFile={importFile}
-          onVoicePress={dictate}
-          voiceState={voiceState}
+          suggestions={showStarters ? starters : []}
         />
       </View>
     </View>

@@ -8,7 +8,7 @@ This package is intentionally thin. It speaks the `@tangle-network/agent-app` ch
 - Mobile chat message list
 - Mobile composer
 - Settings sheet with model and agent knobs
-- File import and voice dictation controls
+- Prompt starters, file import, and optional voice controls
 - Tool/activity list
 - NDJSON stream consumption for agent-app chat routes
 
@@ -56,8 +56,25 @@ function ChatScreen() {
       value={chat.input}
       onValueChange={chat.setInput}
       onSend={send}
+      placeholder="Ask Agent"
       onImportFile={() => openNativeDocumentPicker()}
-      onVoicePress={() => startNativeDictation()}
+      suggestions={[
+        {
+          id: 'plan',
+          title: 'Plan',
+          prompt: 'Plan the next mobile agent workflow.',
+        },
+        {
+          id: 'debug',
+          title: 'Debug',
+          prompt: 'Help me debug the latest mobile chat run.',
+        },
+        {
+          id: 'ship',
+          title: 'Ship',
+          prompt: 'Turn this into the smallest shippable change.',
+        },
+      ]}
       settings={[
         {
           id: 'effort',
@@ -76,7 +93,7 @@ function ChatScreen() {
 }
 ```
 
-`onImportFile` and `onVoicePress` are callbacks on purpose. Real apps wire them to their chosen native modules, such as Expo DocumentPicker or a speech-recognition package, without forcing those native dependencies into every install.
+`onImportFile` and `onVoicePress` are callbacks on purpose. Real apps wire them to their chosen native modules, such as Expo DocumentPicker or a speech-recognition package, without forcing those native dependencies into every install. If `onVoicePress` is omitted, the composer does not show a voice control.
 
 ## Sandbox-backed Mobile Chat
 

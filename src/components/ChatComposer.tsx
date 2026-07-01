@@ -35,7 +35,7 @@ export const ChatComposer = memo(function ChatComposer({
   disabled = false,
   isStreaming = false,
   onCancel,
-  placeholder = 'Message the agent',
+  placeholder = 'Ask Agent',
   sendLabel = 'Send',
   stopLabel = 'Stop',
   submitOnEnter = true,
@@ -49,6 +49,8 @@ export const ChatComposer = memo(function ChatComposer({
   const canSend = trimmed.length > 0 && !disabled && !isStreaming
   const actionLabel = isStreaming ? stopLabel : sendLabel
   const voiceLabel = voiceState === 'listening' ? 'Listening' : voiceState === 'transcribing' ? 'Transcribing' : 'Mic'
+  const showVoice = onVoicePress !== undefined && !canSend && !isStreaming
+  const showPrimary = isStreaming || canSend
 
   const send = useCallback(() => {
     if (!canSend) return
@@ -98,6 +100,21 @@ export const ChatComposer = memo(function ChatComposer({
         </View>
       ) : null}
       <View style={styles.inputRow}>
+        {onImportFile ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Import file"
+            disabled={disabled}
+            onPress={onImportFile}
+            style={({ pressed }) => [
+              styles.iconButton,
+              disabled ? styles.buttonDisabled : null,
+              pressed ? styles.buttonPressed : null,
+            ]}
+          >
+            <Text style={styles.iconText}>+</Text>
+          </Pressable>
+        ) : null}
         <TextInput
           value={value}
           onChangeText={onValueChange}
@@ -112,25 +129,7 @@ export const ChatComposer = memo(function ChatComposer({
           returnKeyType={submitOnEnter ? 'send' : 'default'}
           textAlignVertical="top"
         />
-      </View>
-      <View style={styles.actionRow}>
-        <View style={styles.utilityGroup}>
-          {onImportFile ? (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Import file"
-              disabled={disabled}
-              onPress={onImportFile}
-              style={({ pressed }) => [
-                styles.utilityButton,
-                disabled ? styles.buttonDisabled : null,
-                pressed ? styles.buttonPressed : null,
-              ]}
-            >
-              <Text style={styles.utilityText}>+</Text>
-            </Pressable>
-          ) : null}
-        {onVoicePress ? (
+        {showVoice ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Voice dictation"
@@ -143,24 +142,23 @@ export const ChatComposer = memo(function ChatComposer({
               pressed ? styles.buttonPressed : null,
             ]}
           >
-            <Text style={[styles.utilityText, voiceState !== 'idle' ? styles.voiceTextActive : null]}>{voiceLabel}</Text>
+            <Text style={[styles.voiceText, voiceState !== 'idle' ? styles.voiceTextActive : null]}>{voiceLabel}</Text>
           </Pressable>
         ) : null}
-        </View>
+        {showPrimary ? (
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={actionLabel}
-          disabled={!canSend && !isStreaming}
           onPress={pressPrimary}
           style={({ pressed }) => [
             styles.button,
             isStreaming ? styles.buttonStop : null,
-            (!canSend && !isStreaming) ? styles.buttonDisabled : null,
             pressed ? styles.buttonPressed : null,
           ]}
         >
-          <Text style={styles.buttonText}>{actionLabel}</Text>
+          <Text style={styles.buttonText}>{isStreaming ? '■' : '↑'}</Text>
         </Pressable>
+        ) : null}
       </View>
     </View>
   )
@@ -168,13 +166,7 @@ export const ChatComposer = memo(function ChatComposer({
 
 const styles = StyleSheet.create({
   shell: {
-    gap: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.card,
-    borderRadius: radii.xl,
-    borderCurve: 'continuous',
+    gap: 8,
   },
   attachments: {
     flexDirection: 'row',
@@ -200,69 +192,76 @@ const styles = StyleSheet.create({
   inputRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-  },
-  actionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 10,
-  },
-  utilityGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    gap: 6,
+    minHeight: 52,
+    padding: 6,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.card,
+    borderRadius: 26,
+    borderCurve: 'continuous',
   },
   input: {
     flex: 1,
-    minHeight: 44,
-    maxHeight: 132,
-    paddingHorizontal: 10,
-    paddingVertical: 9,
+    minHeight: 38,
+    maxHeight: 104,
+    paddingHorizontal: 6,
+    paddingVertical: 8,
     color: colors.text,
     fontSize: 16,
     lineHeight: 22,
+    outlineColor: 'transparent',
+    outlineStyle: 'solid',
+    outlineWidth: 0,
   },
-  utilityButton: {
-    width: 42,
-    minHeight: 42,
+  iconButton: {
+    width: 38,
+    height: 38,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.background,
-    borderRadius: radii.lg,
+    borderRadius: 19,
     borderCurve: 'continuous',
   },
   voiceButton: {
-    minWidth: 52,
-    minHeight: 42,
+    minWidth: 44,
+    height: 38,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 9,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.background,
-    borderRadius: radii.lg,
+    borderRadius: 19,
     borderCurve: 'continuous',
   },
   voiceButtonActive: {
     borderColor: colors.primary,
     backgroundColor: colors.user,
   },
-  utilityText: {
+  iconText: {
     color: colors.text,
-    fontSize: 14,
+    fontSize: 22,
+    lineHeight: 24,
+    fontWeight: '800',
+  },
+  voiceText: {
+    color: colors.text,
+    fontSize: 13,
     fontWeight: '800',
   },
   voiceTextActive: {
     color: colors.primary,
   },
   button: {
-    minHeight: 42,
+    width: 38,
+    height: 38,
+    alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
     backgroundColor: colors.primary,
-    borderRadius: radii.lg,
+    borderRadius: 19,
     borderCurve: 'continuous',
   },
   buttonPressed: {
@@ -276,7 +275,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.primaryText,
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: 20,
+    lineHeight: 22,
+    fontWeight: '900',
   },
 })

@@ -69,7 +69,7 @@ const MessageRow = memo(function MessageRow({
   )
 })
 
-export function ChatMessageList({ messages, emptyTitle = 'Start a conversation.' }: ChatMessageListProps) {
+export function ChatMessageList({ messages, emptyTitle = '' }: ChatMessageListProps) {
   const keyExtractor = useCallback((item: MobileChatMessage) => item.id, [])
   const renderItem: ListRenderItem<MobileChatMessage> = useCallback(({ item }) => (
     <MessageRow
@@ -92,7 +92,7 @@ export function ChatMessageList({ messages, emptyTitle = 'Start a conversation.'
       contentInsetAdjustmentBehavior="automatic"
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={messages.length === 0 ? styles.emptyContainer : styles.listContainer}
-      ListEmptyComponent={<Text style={styles.emptyText}>{emptyTitle}</Text>}
+      ListEmptyComponent={emptyTitle ? <Text style={styles.emptyText}>{emptyTitle}</Text> : null}
     />
   )
 }
