@@ -21,10 +21,4 @@ Native mobile adapter for `@tangle-network/agent-app`.
 
 ## Verification
 
-Run:
-
-```bash
-pnpm typecheck
-pnpm test
-pnpm build
-```
+For code qualification, merge `origin/main` and run the canonical local gate (the launcher performs the frozen install): `beelink-gate auto https://github.com/tangle-network/agent-app-mobile.git <full-sha> -- bash -lc 'pnpm typecheck && pnpm build && pnpm test && pnpm example:typecheck && pnpm example:web:export && pnpm example:native:export'`. Build finishes before tests; the existing Expo example checks export web, iOS, and Android bundles. Device behavior and signed native publication require their own proof. Workflow and documentation changes use YAML and content checks.
